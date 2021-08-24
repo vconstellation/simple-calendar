@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 
@@ -8,5 +9,12 @@ class Event(models.Model):
     start_time = models.DateTimeField()
     end_tie = models.DateTimeField()
 
+
+
     def __str__(self):
-        return f"{title}"
+        return f"{self.title}"
+
+    @property
+    def get_html_url(self):
+        url = reverse('cal:event-edit', args=(self.id,))
+        return f'<a href="{url}"> {self.title} </a>'
