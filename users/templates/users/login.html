@@ -1,0 +1,19 @@
+{% extends "calendar_app/home.html" %}
+{% block content %}
+<div>
+    <div class="mx-auto" style="width: 500px;">
+        <div class="content-section">
+            <form method="POST">
+                {% csrf_token %}
+                <fieldset>
+                    <legend>Log in</legend>
+                    {{ form }}
+                </fieldset>
+                <div>
+                    <button type="submit">Authorize</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

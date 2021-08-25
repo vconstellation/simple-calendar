@@ -4,6 +4,8 @@ from django.views import generic
 from django.utils.safestring import mark_safe
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 import calendar
 
 from .models import Event
@@ -14,9 +16,10 @@ from .forms import EventForm
 def home(request):
     return render(request, 'calendar_app/home.html')
 
-class CalendarView(generic.ListView):
+class CalendarView(LoginRequiredMixin, generic.ListView):
     model = Event
     template_name = 'calendar_app/calendar.html'
+    login_url = 'login'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -53,6 +56,7 @@ def next_month(d):
     month = 'month=' + str(next_month.year) + '-' + str(next_month.month)
     return month
 
+@login_required
 def event(request, event_id=None):
     instance = Event()
     if event_id:
